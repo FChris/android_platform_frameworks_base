@@ -697,6 +697,16 @@ class ServerThread extends Thread {
                 reportWtf("starting DiskStats Service", e);
             }
 
+        // **** Added for my Bachelor Thesis
+            try{
+                Slog.i(TAG, "GenGpio Service");
+                ServiceManager.addService(Context.GENGPIO_SERVICE, new GenGpioService(context));
+
+            } catch (Throwable e) {
+                Slog.e(TAG, "Failure starting the GenGpio Service", e);
+            }
+        // **** Added for my Bachelor Thesis
+
             try {
                 // need to add this service even if SamplingProfilerIntegration.isEnabled()
                 // is false, because it is this service that detects system property change and

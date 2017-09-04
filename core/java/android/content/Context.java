@@ -2195,6 +2195,15 @@ public abstract class Context {
      */
     public static final String NFC_SERVICE = "nfc";
 
+    // ***** Added for my Bachelor Thesis *****
+    /**
+     * Use with {@link #getSystemService} to retrieve a
+     * {@link android.os.GenGpioManager} for using Opersys Service.
+     *
+     * @see #getSystemService
+     */
+    public static final String GENGPIO_SERVICE = "gengpio";
+
     /**
      * Use with {@link #getSystemService} to retrieve a
      * {@link android.bluetooth.BluetoothAdapter} for using Bluetooth.

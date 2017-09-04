@@ -79,9 +79,15 @@ import android.os.Environment;
 import android.os.FileUtils;
 import android.os.Handler;
 import android.os.IBinder;
+// **** Added for my Bachelor Thesis ****//
+import android.os.IGenGpioService;
+//**************************************//
 import android.os.IPowerManager;
 import android.os.IUserManager;
 import android.os.Looper;
+// **** Added for my Bachelor Thesis ****//
+import android.os.GenGpioManager;
+//**************************************//
 import android.os.PowerManager;
 import android.os.Process;
 import android.os.RemoteException;
@@ -186,6 +192,10 @@ class ContextImpl extends Context {
     private Context mReceiverRestrictedContext = null;
     private boolean mRestricted;
     private UserHandle mUser;
+    // **** Added for my Bachelor Thesis ****//
+    private GenGpioManager mGenGpioManager = null;
+    //**************************************//
+
 
     private final Object mSync = new Object();
 
@@ -536,6 +546,15 @@ class ContextImpl extends Context {
                 IAppOpsService service = IAppOpsService.Stub.asInterface(b);
                 return new AppOpsManager(ctx, service);
             }});
+
+        //********  Added for my Bachelor Thesis  *********//
+        registerService(GENGPIO_SERVICE, new ServiceFetcher() {
+            public Object createService(ContextImpl ctx) {
+                IBinder b = ServiceManager.getService(GENGPIO_SERVICE);
+                IGenGpioService service = IGenGpioService.Stub.asInterface(b);
+                return new GenGpioManager(service);
+            }});
+        //*************************************************//
     }
 
     static ContextImpl getImpl(Context context) {

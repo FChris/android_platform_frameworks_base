@@ -149,6 +149,7 @@ LOCAL_SRC_FILES += \
 	core/java/android/os/ISchedulingPolicyService.aidl \
 	core/java/android/os/IUpdateLock.aidl \
 	core/java/android/os/IUserManager.aidl \
+	core/java/android/os/IGenGpioService.aidl \
 	core/java/android/os/IVibratorService.aidl \
 	core/java/android/service/notification/INotificationListener.aidl \
 	core/java/android/service/dreams/IDreamManager.aidl \
@@ -567,7 +568,7 @@ sample_dir := development/samples
 
 ## SDK version identifiers used in the published docs
   # major[.minor] version for current SDK. (full releases only)
-framework_docs_SDK_VERSION:=4.2
+framework_docs_SDK_VERSION:=4.3
   # release version (ie "Release x")  (full releases only)
 framework_docs_SDK_REL_ID:=1
 
