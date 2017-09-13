@@ -8,9 +8,13 @@ import android.os.Message;
 import android.os.Process;
 import android.util.Log;
 
+// begin WITH_TAINT_TRACKING
+import dalvik.system.Taint;
+// end WITH_TAINT_TRACKING
+
 public class GenGpioService extends IGenGpioService.Stub {
 
-    private static final String TAG = "gengpio";
+    private static final String TAG = GenGpioService.class.getSimpleName();
     private Context mContext;
     private int mNativePointer;
 
@@ -31,12 +35,18 @@ public class GenGpioService extends IGenGpioService.Stub {
     }
 
     public String read(int maxLength, int gpio_pin) {
-
         int length;
         byte[] buffer = new byte[maxLength];
 
         length = read_native(mNativePointer, buffer, gpio_pin);
-        return new String(buffer, 0, length);
+
+        // begin WITH_TAINT_TRACKING
+        int tag = Taint.TAINT_GENGPIO;
+        String values = new String(buffer, 0, length);
+        Taint.addTaintString(values, tag); //taint values is added in place
+        Log.d(TAG, "Add Taint in GenGpioService while reading");
+        return values;
+        // end WITH_TAINT_TRACKING
     }
 
     public int write(String mString, int gpio_pin) {
