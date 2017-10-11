@@ -5706,6 +5706,7 @@ package android.content {
     field public static final java.lang.String DISPLAY_SERVICE = "display";
     field public static final java.lang.String DOWNLOAD_SERVICE = "download";
     field public static final java.lang.String DROPBOX_SERVICE = "dropbox";
+    field public static final java.lang.String GENGPIO_SERVICE = "gengpio";
     field public static final java.lang.String INPUT_METHOD_SERVICE = "input_method";
     field public static final java.lang.String INPUT_SERVICE = "input";
     field public static final java.lang.String KEYGUARD_SERVICE = "keyguard";
@@ -17102,6 +17103,12 @@ package android.os {
     field public static final int OPEN = 32; // 0x20
   }
 
+  public class GenGpioManager {
+    ctor public GenGpioManager(android.os.IGenGpioService);
+    method public java.lang.String read(int, int);
+    method public int write(java.lang.String, int);
+  }
+
   public class Handler {
     ctor public Handler();
     ctor public Handler(android.os.Handler.Callback);
@@ -17174,6 +17181,17 @@ package android.os {
 
   public static abstract interface IBinder.DeathRecipient {
     method public abstract void binderDied();
+  }
+
+  public abstract interface IGenGpioService implements android.os.IInterface {
+    method public abstract int write(java.lang.String, int) throws android.os.RemoteException;
+  }
+
+  public static abstract class IGenGpioService.Stub extends android.os.Binder implements android.os.IGenGpioService {
+    ctor public IGenGpioService.Stub();
+    method public android.os.IBinder asBinder();
+    method public static android.os.IGenGpioService asInterface(android.os.IBinder);
+    method public boolean onTransact(int, android.os.Parcel, android.os.Parcel, int) throws android.os.RemoteException;
   }
 
   public abstract interface IInterface {
@@ -31380,6 +31398,7 @@ package dalvik.system {
     field public static final int TAINT_CLEAR = 0; // 0x0
     field public static final int TAINT_CONTACTS = 2; // 0x2
     field public static final int TAINT_DEVICE_SN = 8192; // 0x2000
+    field public static final int TAINT_GENGPIO = 65536; // 0x10000
     field public static final int TAINT_HISTORY = 32768; // 0x8000
     field public static final int TAINT_ICCID = 4096; // 0x1000
     field public static final int TAINT_IMEI = 1024; // 0x400

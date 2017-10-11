@@ -12,6 +12,10 @@ import android.util.Log;
 import dalvik.system.Taint;
 // end WITH_TAINT_TRACKING
 
+// For testing
+import java.util.Random;
+
+
 public class GenGpioService extends IGenGpioService.Stub {
 
     private static final String TAG = GenGpioService.class.getSimpleName();
@@ -25,8 +29,7 @@ public class GenGpioService extends IGenGpioService.Stub {
 
         mNativePointer = init_native();
 
-        //TODO implement test method
-        //Log.i(TAG, "test() returns " + test_native(mNativePointer, 20));
+        Log.i(TAG, "native poiner: "+ mNativePointer);
     }
 
     protected void finalize() throws Throwable {
@@ -35,14 +38,24 @@ public class GenGpioService extends IGenGpioService.Stub {
     }
 
     public String read(int maxLength, int gpio_pin) {
-        int length;
+        int length = 0;
         byte[] buffer = new byte[maxLength];
+//        new Random().nextBytes(buffer);
 
         length = read_native(mNativePointer, buffer, gpio_pin);
 
+        String values;
+        try {
+            values = new String(buffer, "ISO-8859-1");
+            Log.d(TAG, "Bytes read: " + values);
+        } catch (Exception e) {
+            // do nothing hello
+            Log.d(TAG, "Could not convert read bytes");
+            values = "1111";
+        }
+
         // begin WITH_TAINT_TRACKING
         int tag = Taint.TAINT_GENGPIO;
-        String values = new String(buffer, 0, length);
         Taint.addTaintString(values, tag); //taint values is added in place
         Log.d(TAG, "Add Taint in GenGpioService while reading");
         return values;
@@ -59,5 +72,4 @@ public class GenGpioService extends IGenGpioService.Stub {
     private static native void finalize_native(int ptr);
     private static native int read_native(int ptr, byte[] buffer, int gpio_pin);
     private static native int write_native(int ptr, byte[] buffer, int gpio_pin);
-//    private static native int test_native(int ptr, int value);
 }
